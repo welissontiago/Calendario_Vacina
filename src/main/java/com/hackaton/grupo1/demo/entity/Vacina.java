@@ -19,7 +19,7 @@ public class Vacina implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_vacina")
-    private Long id;
+    private Integer id;
     @Column(name = "nome_vacina", length = 50, nullable = false)
     private String nome;
     @Column(name = "descricao_vacina", length = 200, nullable = false)
@@ -41,7 +41,7 @@ public class Vacina implements Serializable {
         this.publicoAlvo = publicoAlvo;
     }
 
-    public Vacina(Long id, String nome, String descricao, int limiteAplicacao, PublicoAlvo publicoAlvo){
+    public Vacina(Integer id, String nome, String descricao, int limiteAplicacao, PublicoAlvo publicoAlvo){
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -49,7 +49,7 @@ public class Vacina implements Serializable {
         this.publicoAlvo = publicoAlvo;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -69,7 +69,7 @@ public class Vacina implements Serializable {
         return publicoAlvo;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
