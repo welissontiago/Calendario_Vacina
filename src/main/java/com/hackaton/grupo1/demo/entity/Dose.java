@@ -1,5 +1,6 @@
 package com.hackaton.grupo1.demo.entity;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.*;
@@ -8,7 +9,7 @@ import jakarta.persistence.*;
 @Table(name = "dose")
 public class Dose implements Serializable{
 
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,9 @@ public class Dose implements Serializable{
     @ManyToOne
     @JoinColumn(name = "id_vacina", nullable = false)
     private Vacina vacina;
+
+    @OneToMany(mappedBy = "dose", cascade = CascadeType.ALL)
+    private List<Imunizacao> imunizacoes;
 
 
     public Dose() {

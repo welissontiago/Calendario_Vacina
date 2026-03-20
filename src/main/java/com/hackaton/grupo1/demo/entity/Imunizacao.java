@@ -16,11 +16,13 @@ public class Imunizacao implements Serializable {
     @Column(name = "id_imunizacao")
     private Long id;
 
-    @Column(name = "id_paciente", nullable = false)
-    private Long idPaciente;
+    @ManyToOne
+    @JoinColumn(name = "id_paciente", nullable = false)
+    private Paciente paciente;
 
-    @Column(name = "id_dose", nullable = false)
-    private Long idDose;
+    @ManyToOne
+    @JoinColumn(name = "id_dose", nullable = false)
+    private Dose dose;
 
     @Column(name = "data_aplicacao", nullable = false)
     private LocalDate dataAplicacao;
@@ -39,24 +41,21 @@ public class Imunizacao implements Serializable {
 
     // GETTERS E SETTERS
 
-    public Long getId() {
-        return id;
+
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public Long getIdPaciente() {
-        return idPaciente;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
-    public void setIdPaciente(Long idPaciente) {
-        this.idPaciente = idPaciente;
+    public Dose getDose() {
+        return dose;
     }
 
-    public Long getIdDose() {
-        return idDose;
-    }
-
-    public void setIdDose(Long idDose) {
-        this.idDose = idDose;
+    public void setDose(Dose dose) {
+        this.dose = dose;
     }
 
     public LocalDate getDataAplicacao() {

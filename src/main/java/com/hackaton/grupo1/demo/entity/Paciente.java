@@ -2,22 +2,16 @@ package com.hackaton.grupo1.demo.entity;
 import com.hackaton.grupo1.demo.enums.Sexo;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "paciente")
 public class Paciente implements Serializable{
 
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_paciente")
@@ -31,6 +25,9 @@ public class Paciente implements Serializable{
     private Sexo sexo;
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate data_nascimento;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    private List<Imunizacao> imunizacoes;
 
     public Paciente() {
     }
