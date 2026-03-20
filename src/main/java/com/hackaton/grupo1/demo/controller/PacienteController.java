@@ -52,11 +52,8 @@ public class PacienteController implements PacienteControllerDocs{
 
     @DeleteMapping("/excluir/{id}")
     public ResponseEntity<String> apagarPacienteID(@PathVariable Integer id){
-        if (pacienteService.findById(id) != null) {
             pacienteService.deletar(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Paciente deletado com sucesso! ID: "+id);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não encontrado! ID: "+id);
+        return ResponseEntity.status(HttpStatus.OK).body("Paciente não encontrado! ID: "+id);
     }
     
 }

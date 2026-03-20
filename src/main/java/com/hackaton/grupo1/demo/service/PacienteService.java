@@ -3,6 +3,7 @@ package com.hackaton.grupo1.demo.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hackaton.grupo1.demo.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class PacienteService {
 
     public PacienteDTO findById(Integer id){
         Paciente paciente = repository.findById(id).orElseThrow(()
-            -> new RuntimeException("paciente não encontrado")
+                -> new ResourceNotFoundException("Paciente não encontrado com o ID: " + id)
         );
         return toDTO(paciente);
     }
@@ -40,7 +41,7 @@ public class PacienteService {
     public PacienteDTO atualizarPaciente(int id, PacienteDTO pacienteDTO){
     
         Paciente paciente = repository.findById(id).orElseThrow(()
-            -> new RuntimeException("paciente não encontrado")
+            -> new ResourceNotFoundException("paciente não encontrado")
         );
         paciente.setNome(pacienteDTO.getNome());
         paciente.setCpf(pacienteDTO.getCpf());

@@ -1,15 +1,9 @@
 package com.hackaton.grupo1.demo.entity;
 import java.io.Serializable;
+import java.util.List;
 
 import com.hackaton.grupo1.demo.enums.PublicoAlvo;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "vacina")
@@ -30,6 +24,9 @@ public class Vacina implements Serializable {
     @Enumerated(EnumType.STRING)
     private PublicoAlvo publicoAlvo;
 
+    @OneToMany(mappedBy = "vacina", cascade = CascadeType.ALL)
+    private List<Dose> doses;
+
     public Vacina(){
 
     }
@@ -47,6 +44,15 @@ public class Vacina implements Serializable {
         this.descricao = descricao;
         this.limiteAplicacao = limiteAplicacao;
         this.publicoAlvo = publicoAlvo;
+    }
+
+    public Vacina(List<Dose> doses, PublicoAlvo publicoAlvo, int limiteAplicacao, String descricao, String nome, Integer id) {
+        this.doses = doses;
+        this.publicoAlvo = publicoAlvo;
+        this.limiteAplicacao = limiteAplicacao;
+        this.descricao = descricao;
+        this.nome = nome;
+        this.id = id;
     }
 
     public Integer getId() {
@@ -89,5 +95,11 @@ public class Vacina implements Serializable {
         this.publicoAlvo = publicoAlvo;
     }
 
-    
+    public List<Dose> getDoses() {
+        return doses;
+    }
+
+    public void setDoses(List<Dose> doses) {
+        this.doses = doses;
+    }
 }
