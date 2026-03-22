@@ -1,9 +1,9 @@
 <div align="center">
  
 <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=13&duration=3000&pause=1000&color=00E5A0&center=true&vCenter=true&width=500&lines=Desafio+Mesttra+%C2%B7+Healthcare+API;Spring+Boot+%C2%B7+Java+17+%C2%B7+MySQL;Gerenciamento+de+Imuniza%C3%A7%C3%A3o+Familiar" alt="Typing SVG" />
- 
-# 💉 API de Vacinação Familiar
- 
+
+# 💉 API de Calendário de Vacinação
+
 **Sistema completo para gerenciamento do histórico de imunização familiar**  
 com controle de doses, validações inteligentes e calendário vacinal automatizado.
  
@@ -22,7 +22,160 @@ com controle de doses, validações inteligentes e calendário vacinal automatiz
 </div>
  
 ---
- 
+
+# 📖 Sobre o projeto
+
+A **API de Calendário de Vacinação** é um sistema backend desenvolvido em **Java com Spring Boot** que permite o controle completo do histórico de vacinação de pacientes.
+
+O sistema permite:
+
+* Cadastro de pacientes
+* Cadastro de vacinas
+* Registro de imunizações
+* Controle de doses aplicadas
+* Consultas por período
+* Identificação de vacinas atrasadas
+* Estatísticas de vacinação
+
+Projeto desenvolvido como parte do **Hackathon Mesttra**.
+
+---
+
+# 🎯 Objetivo do sistema
+
+Fornecer uma API REST capaz de:
+
+* Centralizar histórico vacinal
+* Garantir integridade dos dados médicos
+* Aplicar validações de regras de negócio
+* Permitir futuras integrações frontend
+* Gerar indicadores de vacinação
+
+---
+
+# 🏗️ Arquitetura do sistema
+
+O projeto segue arquitetura em camadas:
+
+Controller → Service → Repository → Entity → DTO → Exception Handler
+
+```mermaid
+graph TD
+
+Cliente --> Controller
+
+Controller --> Service
+
+Service --> Repository
+
+Repository --> Database[(Banco de dados)]
+
+Service --> DTO
+
+DTO --> Controller
+
+Service --> Entity
+
+Entity --> Repository
+
+Controller --> ExceptionHandler
+
+ExceptionHandler --> Cliente
+```
+
+---
+
+# 🧠 Organização do projeto
+
+Estrutura real do código:
+
+```id="qv2dso"
+src/main/java/com/hackaton/grupo1/demo/
+
+config/
+controller/
+dto/
+entity/
+repository/
+service/
+exceptions/
+enums/
+```
+
+---
+
+# 🗄️ Modelo de dados
+
+```mermaid
+erDiagram
+
+PACIENTE {
+Long id
+String nome
+String cpf
+LocalDate dataNascimento
+Sexo sexo
+}
+
+VACINA {
+Long id
+String nome
+String descricao
+Integer idadeLimite
+PublicoAlvo publicoAlvo
+}
+
+DOSE {
+Long id
+String descricao
+Integer idadeRecomendada
+Long vacina
+}
+
+IMUNIZACAO {
+Long id
+LocalDate dataAplicacao
+String fabricante
+String lote
+String localAplicacao
+String profissionalAplicador
+}
+
+PACIENTE ||--o{ IMUNIZACAO : possui
+
+DOSE ||--o{ IMUNIZACAO : aplicada
+
+VACINA ||--o{ DOSE : possui
+```
+
+---
+
+# 🔄 Fluxo de registro de imunização
+
+```mermaid
+sequenceDiagram
+
+Cliente->>ImunizacaoController: POST /imunizacao/inserir
+
+ImunizacaoController->>ImunizacaoService: validar dados
+
+ImunizacaoService->>PacienteRepository: buscar paciente
+
+ImunizacaoService->>DoseRepository: buscar dose
+
+ImunizacaoService->>ImunizacaoService: validar regras
+
+ImunizacaoService->>ImunizacaoRepository: salvar
+
+ImunizacaoRepository-->>Service: OK
+
+Service-->>Controller: DTO
+
+Controller-->>Cliente: 201 Created
+```
+
+---
+
 ## 🚀 Tecnologias Utilizadas
  
 O projeto utiliza o ecossistema Spring para fornecer uma base robusta e escalável:
@@ -36,62 +189,136 @@ O projeto utiliza o ecossistema Spring para fornecer uma base robusta e escaláv
 | 📖 **SpringDoc OpenAPI** | — | Documentação interativa (Swagger) |
 | 📦 **Maven** | — | Gerenciador de dependências e build |
  
+# 📋 Funcionalidades
+
+## 👤 Pacientes
+
+* Cadastrar paciente
+* Consultar pacientes
+* Consultar por ID
+* Atualizar paciente
+* Excluir paciente
+
+Validações:
+
+* CPF não pode duplicar
+* Data nascimento não pode ser futura
+
 ---
- 
-## 📋 Funcionalidades Principais
- 
-O sistema está dividido em quatro pilares:
- 
-<details>
-<summary>👤 <strong>Gestão de Pacientes</strong></summary>
-<br/>
- 
-Cadastro, atualização e exclusão de dados de familiares com:
-- ✅ Validação de unicidade de CPF
-- ✅ Proibição de datas de nascimento futuras
- 
-</details>
- 
-<details>
-<summary>💊 <strong>Controle de Vacinas</strong></summary>
-<br/>
- 
-Catálogo de vacinas segmentadas por público-alvo:
- 
-| Público | Badge |
-|---|---|
-| Crianças | ![Criança](https://img.shields.io/badge/CRIANÇA-00B8FF?style=flat-square) |
-| Adolescentes | ![Adolescente](https://img.shields.io/badge/ADOLESCENTE-00E5A0?style=flat-square) |
-| Adultos | ![Adulto](https://img.shields.io/badge/ADULTO-F8A040?style=flat-square) |
-| Gestantes | ![Gestante](https://img.shields.io/badge/GESTANTE-C4A0FF?style=flat-square) |
- 
-Com controle de **idade limite de aplicação** para cada vacina.
- 
-</details>
- 
-<details>
-<summary>🩺 <strong>Registro de Imunizações</strong></summary>
-<br/>
- 
-Lançamento de doses aplicadas com os seguintes dados:
-- 🏭 Fabricante e número do lote
-- 📍 Local de aplicação
-- 👨‍⚕️ Profissional responsável
- 
-</details>
- 
-<details>
-<summary>📊 <strong>Painel de Estatísticas</strong></summary>
-<br/>
- 
-- 📈 Contagem de vacinas aplicadas por paciente
-- ⏰ Identificação de vacinas **atrasadas** com base na idade atual
-- 🗓️ Previsão de vacinas para o **próximo mês**
- 
-</details>
- 
+
+## 💉 Vacinas
+
+* Cadastro de vacinas
+* Consulta geral
+* Consulta por faixa etária
+* Consulta por idade mínima
+
 ---
- 
+
+## 📋 Imunizações
+
+* Registrar aplicação
+* Atualizar registro
+* Excluir registro
+* Consultar por paciente
+* Consultar por período
+
+Validações:
+
+* Data não pode ser futura
+* Data não pode ser anterior ao nascimento
+* Dose não pode duplicar
+
+---
+
+## 📊 Estatísticas
+
+O sistema possui consultas para:
+
+* Vacinas aplicadas por paciente
+* Vacinas atrasadas
+* Vacinas previstas
+* Indicadores de vacinação
+
+---
+
+# 📡 Endpoints principais
+
+## Paciente
+
+```http
+GET /paciente/consultar
+
+GET /paciente/consultar/{id}
+
+POST /paciente/inserir
+
+PUT /paciente/alterar/{id}
+
+DELETE /paciente/excluir/{id}
+```
+
+---
+
+## Vacinas
+
+```http
+GET /vacinas/consultar
+
+POST /vacinas/cadastrar
+
+GET /vacinas/consultar/faixa_etaria/{faixa}
+
+GET /vacinas/consultar/idade_maior/{meses}
+```
+
+---
+
+## Imunização
+
+```http
+POST /imunizacao/inserir
+
+PUT /imunizacao/alterar/{id}
+
+DELETE /imunizacao/excluir/{id}
+
+GET /imunizacao/consultar
+
+GET /imunizacao/consultar/{id}
+
+GET /imunizacao/consultar/paciente/{id}
+```
+
+---
+
+# 📬 Exemplo request
+
+Cadastro paciente:
+
+```json
+{
+"nome":"Maria Silva",
+"cpf":"12345678900",
+"sexo":"F",
+"dataNascimento":"2000-05-10"
+}
+```
+
+---
+
+# 📤 Exemplo response
+
+```json
+{
+"id":1,
+"nome":"Maria Silva",
+"cpf":"12345678900"
+}
+```
+
+---
+
 ## 🛠️ Como Executar
  
 ### Pré-requisitos
@@ -155,7 +382,56 @@ src/main/java/com/mesttra/vacinacao/
  
 ---
  
+
+---
+
+# 🧪 Regras de negócio implementadas
+
+O sistema impede:
+
+* CPF duplicado
+* Dose duplicada
+* Datas inválidas
+* Paciente inexistente
+* Dose inexistente
+
+---
+
+# 🎯 Competências demonstradas
+
+Este projeto demonstra conhecimento em:
+
+Backend Java
+
+Spring Boot
+
+REST APIs
+
+Arquitetura em camadas
+
+DTO Pattern
+
+Validação de dados
+
+Modelagem de banco
+
+Documentação API
+
+Tratamento de exceções
+
+Git
+
+
+---
+
+
+# 📄 Licença
+
+Projeto desenvolvido para fins educacionais.
+
 <div align="center">
+
+---
  
 Desenvolvido com ❤️ para o **Desafio Mesttra**
  
