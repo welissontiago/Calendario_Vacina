@@ -85,25 +85,6 @@ ExceptionHandler --> Cliente
 
 ---
 
-# 🧠 Organização do projeto
-
-Estrutura real do código:
-
-```id="qv2dso"
-src/main/java/com/hackaton/grupo1/demo/
-
-config/
-controller/
-dto/
-entity/
-repository/
-service/
-exceptions/
-enums/
-```
-
----
-
 # 🗄️ Modelo de dados
 
 ```mermaid
