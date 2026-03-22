@@ -15,7 +15,7 @@ public interface ImunizacaoControllerDocs {
             @ApiResponse(responseCode = "201", description = "Imunização cadastrada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
-    ResponseEntity<Integer> inserir(ImunizacaoDTO dto);
+    ResponseEntity<ImunizacaoDTO> inserir(ImunizacaoDTO dto);
 
     @Operation(summary = "Alterar imunização", responses = {
             @ApiResponse(responseCode = "200", description = "Alterado com sucesso"),

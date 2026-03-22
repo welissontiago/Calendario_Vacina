@@ -39,6 +39,36 @@ public class Imunizacao implements Serializable {
     @Column(name = "profissional_aplicador", length = 45)
     private String profissionalAplicador;
 
+    public Imunizacao() {
+    }
+
+    public Imunizacao(Integer id, Paciente paciente, Dose dose, LocalDate dataAplicacao, String fabricante, String lote, String localAplicacao, String profissionalAplicador) {
+        this.id = id;
+        this.paciente = paciente;
+        this.dose = dose;
+        this.dataAplicacao = dataAplicacao;
+        this.fabricante = fabricante;
+        this.lote = lote;
+        this.localAplicacao = localAplicacao;
+        this.profissionalAplicador = profissionalAplicador;
+    }
+
+    public Imunizacao(Paciente paciente, Dose dose, LocalDate dataAplicacao, String fabricante, String lote, String localAplicacao, String profissionalAplicador) {
+        this.paciente = paciente;
+        this.dose = dose;
+        this.dataAplicacao = dataAplicacao;
+        this.fabricante = fabricante;
+        this.lote = lote;
+        this.localAplicacao = localAplicacao;
+        this.profissionalAplicador = profissionalAplicador;
+    }
+
+    public Imunizacao(Integer id, LocalDate dataAplicacao, Dose dose, Paciente paciente) {
+        this.id = id;
+        this.dataAplicacao = dataAplicacao;
+        this.dose = dose;
+        this.paciente = paciente;
+    }
 
     public Integer getId() {
         return id;

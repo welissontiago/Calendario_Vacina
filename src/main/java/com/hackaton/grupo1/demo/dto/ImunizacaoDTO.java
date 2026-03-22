@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 
 import java.time.LocalDate;
 
+import com.hackaton.grupo1.demo.enums.Sexo;
+
 public class ImunizacaoDTO {
 
     private Integer id;
@@ -21,6 +23,37 @@ public class ImunizacaoDTO {
     private String localAplicacao;
 
     private String profissionalAplicador;
+
+    public ImunizacaoDTO() {
+    }
+
+    public ImunizacaoDTO(Integer id, Integer idPaciente, Integer idDose, LocalDate dataAplicacao) {
+        this.id = id;
+        this.idPaciente = idPaciente;
+        this.idDose = idDose;
+        this.dataAplicacao = dataAplicacao;
+    }
+
+    public ImunizacaoDTO(Integer id, Integer idPaciente, Integer idDose, LocalDate dataAplicacao, String fabricante, String lote, String localAplicacao, String profissionalAplicador) {
+        this.id = id;
+        this.idPaciente = idPaciente;
+        this.idDose = idDose;
+        this.dataAplicacao = dataAplicacao;
+        this.fabricante = fabricante;
+        this.lote = lote;
+        this.localAplicacao = localAplicacao;
+        this.profissionalAplicador = profissionalAplicador;
+    }
+
+    public ImunizacaoDTO(Integer idPaciente, Integer idDose, LocalDate dataAplicacao, String fabricante, String lote, String localAplicacao, String profissionalAplicador) {
+        this.idPaciente = idPaciente;
+        this.idDose = idDose;
+        this.dataAplicacao = dataAplicacao;
+        this.fabricante = fabricante;
+        this.lote = lote;
+        this.localAplicacao = localAplicacao;
+        this.profissionalAplicador = profissionalAplicador;
+    }
 
     public Integer getId() {
         return id;

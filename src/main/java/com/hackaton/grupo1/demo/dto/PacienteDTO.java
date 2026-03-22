@@ -29,6 +29,12 @@ public class PacienteDTO {
         this.data_nascimento = data_nascimento;
     }
 
+    public PacienteDTO(String nome, Sexo sexo, LocalDate data_nascimento) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.data_nascimento = data_nascimento;
+    }
+
     public Integer getId() {
         return id;
     }

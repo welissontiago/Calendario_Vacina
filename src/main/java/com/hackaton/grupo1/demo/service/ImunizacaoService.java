@@ -68,8 +68,30 @@ public class ImunizacaoService {
         Imunizacao imunizacao = imunizacaoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Imunização não encontrada."));
 
-        // Atualiza apenas os campos permitidos
-        if (dto.getDataAplicacao() != null) imunizacao.setDataAplicacao(dto.getDataAplicacao());
+        if (dto.getIdPaciente() != null) {
+            Paciente paciente = pacienteRepository.findById(dto.getIdPaciente())
+                    .orElseThrow(() -> new ResourceNotFoundException("Paciente não encontrado."));
+            imunizacao.setPaciente(paciente);
+        }
+
+        if (dto.getIdDose() != null) {
+            Dose dose = doseRepository.findById(dto.getIdDose())
+                    .orElseThrow(() -> new ResourceNotFoundException("Dose não encontrada."));
+            imunizacao.setDose(dose);
+        }
+
+        if (dto.getDataAplicacao() != null) {
+            if (dto.getDataAplicacao().isAfter(LocalDate.now())) {
+                throw new BadRequestException("A data não pode ser no futuro.");
+            }
+            if (imunizacao.getPaciente() != null &&
+                    dto.getDataAplicacao().isBefore(imunizacao.getPaciente().getData_nascimento())) {
+                throw new BadRequestException("Data anterior ao nascimento do paciente.");
+            }
+
+            imunizacao.setDataAplicacao(dto.getDataAplicacao());
+        }
+
         if (dto.getFabricante() != null) imunizacao.setFabricante(dto.getFabricante());
         if (dto.getLote() != null) imunizacao.setLote(dto.getLote());
         if (dto.getLocalAplicacao() != null) imunizacao.setLocalAplicacao(dto.getLocalAplicacao());

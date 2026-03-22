@@ -25,9 +25,9 @@ public class ImunizacaoController implements ImunizacaoControllerDocs {
     }
 
     @PostMapping("/inserir")
-    public ResponseEntity<Integer> inserir(@RequestBody ImunizacaoDTO dto) {
+    public ResponseEntity<ImunizacaoDTO> inserir(@RequestBody ImunizacaoDTO dto) {
         Imunizacao salva = service.salvar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(salva.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/alterar/{id}")

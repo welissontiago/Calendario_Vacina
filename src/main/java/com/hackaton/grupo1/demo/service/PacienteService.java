@@ -53,21 +53,32 @@ public class PacienteService {
                 -> new ResourceNotFoundException("Paciente não encontrado")
         );
 
-        if (pacienteDTO.getData_nascimento() != null && pacienteDTO.getData_nascimento().isAfter(LocalDate.now())) {
+        if (pacienteDTO.getData_nascimento() != null &&
+                pacienteDTO.getData_nascimento().isAfter(LocalDate.now())) {
             throw new BadRequestException("A data de nascimento não pode ser no futuro.");
         }
 
         if (pacienteDTO.getCpf() != null) {
-            Optional<Paciente> pacienteExistente = repository.findByCpf(pacienteDTO.getCpf());
-            if (pacienteExistente.isPresent() && !pacienteExistente.get().getId().equals(id)) {
-                throw new BadRequestException("O CPF informado já está sendo utilizado por outro paciente.");
-            }
+            throw new BadRequestException("O CPF não pode ser alterado.");
         }
 
-        paciente.setNome(pacienteDTO.getNome());
-        paciente.setCpf(pacienteDTO.getCpf());
-        paciente.setSexo(pacienteDTO.getSexo());
-        paciente.setData_nascimento(pacienteDTO.getData_nascimento());
+
+        if (pacienteDTO.getNome() != null) {
+            paciente.setNome(pacienteDTO.getNome());
+        }
+
+        if (pacienteDTO.getCpf() != null) {
+            paciente.setCpf(pacienteDTO.getCpf());
+        }
+
+        if (pacienteDTO.getSexo() != null) {
+            paciente.setSexo(pacienteDTO.getSexo());
+        }
+
+        if (pacienteDTO.getData_nascimento() != null) {
+            paciente.setData_nascimento(pacienteDTO.getData_nascimento());
+        }
+
         return toDTO(repository.save(paciente));
     }
 
