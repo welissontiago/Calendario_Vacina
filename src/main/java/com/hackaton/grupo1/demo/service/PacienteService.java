@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.hackaton.grupo1.demo.dto.PacienteDTO;
 import com.hackaton.grupo1.demo.entity.Paciente;
-
+import com.hackaton.grupo1.demo.enums.Sexo;
 import com.hackaton.grupo1.demo.repository.PacienteRepository;
 import java.lang.RuntimeException;
+import com.hackaton.grupo1.demo.validation.utils.CpfValidator;
 
 @Service
 public class PacienteService {
@@ -34,14 +35,21 @@ public class PacienteService {
     }
 
     public PacienteDTO criarPaciente(PacienteDTO pacienteDTO){
-        // Valida se a data de nascimento está no futuro
+        
         if (pacienteDTO.getData_nascimento() != null && pacienteDTO.getData_nascimento().isAfter(LocalDate.now())) {
             throw new BadRequestException("A data de nascimento não pode ser no futuro.");
         }
 
-        if(pacienteDTO.getCpf() != null && repository.existsByCpf(pacienteDTO.getCpf())){
-            // Substituímos o RuntimeException genérico por BadRequestException
+        if(CpfValidator.ValidarCpf(pacienteDTO.getCpf()) == false){
+            throw new BadRequestException("CPF inválido.");
+        }
+
+        if(repository.existsByCpf(pacienteDTO.getCpf())){
             throw new BadRequestException("CPF já cadastrado.");
+        }
+
+        if(pacienteDTO.getNome().length() > 60 || repository.existsByNome(pacienteDTO.getNome())){
+            throw new BadRequestException("O nome não pode ter mais de 60 caracteres e não pode repetir.");
         }
 
         Paciente paciente = toEntity(pacienteDTO);
@@ -53,22 +61,11 @@ public class PacienteService {
                 -> new ResourceNotFoundException("Paciente não encontrado")
         );
 
-        if (pacienteDTO.getData_nascimento() != null &&
-                pacienteDTO.getData_nascimento().isAfter(LocalDate.now())) {
-            throw new BadRequestException("A data de nascimento não pode ser no futuro.");
-        }
-
-        if (pacienteDTO.getCpf() != null) {
-            throw new BadRequestException("O CPF não pode ser alterado.");
-        }
-
-
         if (pacienteDTO.getNome() != null) {
+            if(pacienteDTO.getNome().length() > 60 || (repository.existsByNome(pacienteDTO.getNome()) && !paciente.getNome().equals(pacienteDTO.getNome()))){
+                throw new BadRequestException("O nome não pode ter mais de 60 caracteres ou já existir com outra usuário.");
+            }
             paciente.setNome(pacienteDTO.getNome());
-        }
-
-        if (pacienteDTO.getCpf() != null) {
-            paciente.setCpf(pacienteDTO.getCpf());
         }
 
         if (pacienteDTO.getSexo() != null) {
@@ -76,6 +73,9 @@ public class PacienteService {
         }
 
         if (pacienteDTO.getData_nascimento() != null) {
+            if(pacienteDTO.getData_nascimento().isAfter(LocalDate.now())){
+                throw new BadRequestException("A data de nascimento não pode ser no futuro.");
+            }
             paciente.setData_nascimento(pacienteDTO.getData_nascimento());
         }
 

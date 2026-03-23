@@ -16,7 +16,7 @@ public class Paciente implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_paciente")
     private Integer id;
-    @Column(name = "nome_paciente", length = 60, nullable = false)
+    @Column(name = "nome_paciente", length = 60, nullable = false, unique = true)
     private String nome;
     @Column(name = "cpf_paciente", length = 11)
     private String cpf;

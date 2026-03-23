@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hackaton.grupo1.demo.controller.docs.PacienteControllerDocs;
 import com.hackaton.grupo1.demo.dto.PacienteDTO;
+import com.hackaton.grupo1.demo.exceptions.BadRequestException;
 import com.hackaton.grupo1.demo.exceptions.ResourceNotFoundException;
 import com.hackaton.grupo1.demo.service.PacienteService;
 
