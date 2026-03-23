@@ -1,7 +1,6 @@
 package com.hackaton.grupo1.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.hackaton.grupo1.demo.dto.VacinaDTO;
@@ -50,25 +49,6 @@ public class VacinaService {
         return vacinas.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
-    }
-
-    public VacinaDTO cadastrar(VacinaDTO dto) {
-        Vacina vacina = convertToEntity(dto);
-
-        Vacina salva = vacinaRepository.save(vacina);
-
-        return convertToDTO(salva);
-    }
-
-    private Vacina convertToEntity(VacinaDTO dto) {
-        Vacina vacina = new Vacina();
-
-        vacina.setNome(dto.getNome());
-        vacina.setDescricao(dto.getDescricao());
-        vacina.setLimiteAplicacao(dto.getLimiteAplicacao());
-        vacina.setPublicoAlvo(dto.getPublicoAlvo());
-
-        return vacina;
     }
 
     private VacinaDTO convertToDTO(Vacina vacina) {

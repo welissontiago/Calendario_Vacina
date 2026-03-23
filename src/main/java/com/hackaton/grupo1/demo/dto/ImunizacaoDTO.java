@@ -1,10 +1,6 @@
 package com.hackaton.grupo1.demo.dto;
 
-import jakarta.persistence.Column;
-
 import java.time.LocalDate;
-
-import com.hackaton.grupo1.demo.enums.Sexo;
 
 public class ImunizacaoDTO {
 

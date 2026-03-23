@@ -4,7 +4,6 @@ import com.hackaton.grupo1.demo.controller.docs.VacinaControllerDocs;
 import com.hackaton.grupo1.demo.dto.VacinaDTO;
 import com.hackaton.grupo1.demo.service.VacinaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +36,5 @@ public class VacinaController implements VacinaControllerDocs {
     public ResponseEntity<List<VacinaDTO>> listarPorIdadeMaior(@PathVariable int meses) {
         List<VacinaDTO> vacinas = vacinaService.listarPorIdadeMaior(meses);
         return ResponseEntity.ok(vacinas);
-    }
-
-    @PostMapping("/cadastrar")
-    public ResponseEntity<VacinaDTO> cadastrar(@RequestBody VacinaDTO vacinaDTO) {
-        VacinaDTO novaVacina = vacinaService.cadastrar(vacinaDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novaVacina);
     }
 }

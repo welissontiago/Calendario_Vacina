@@ -2,7 +2,6 @@ package com.hackaton.grupo1.demo.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.hackaton.grupo1.demo.exceptions.BadRequestException;
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.hackaton.grupo1.demo.dto.PacienteDTO;
 import com.hackaton.grupo1.demo.entity.Paciente;
-import com.hackaton.grupo1.demo.enums.Sexo;
 import com.hackaton.grupo1.demo.repository.PacienteRepository;
-import java.lang.RuntimeException;
 import com.hackaton.grupo1.demo.validation.utils.CpfValidator;
 
 @Service
@@ -63,7 +60,7 @@ public class PacienteService {
 
         if (pacienteDTO.getNome() != null) {
             if(pacienteDTO.getNome().length() > 60 || (repository.existsByNome(pacienteDTO.getNome()) && !paciente.getNome().equals(pacienteDTO.getNome()))){
-                throw new BadRequestException("O nome não pode ter mais de 60 caracteres ou já existir com outra usuário.");
+                throw new BadRequestException("O nome não pode ter mais de 60 caracteres ou já existir com outro usuário.");
             }
             paciente.setNome(pacienteDTO.getNome());
         }
